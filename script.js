@@ -893,39 +893,11 @@ if(storyText) {
 }
 // --- YENİ BÖLÜM JS: THE SCRATCHED MEMORY REEL (Interactive Photos) ---
 const memoryPhotos = [
-    "image/1.jpeg",
-    "image/2.jpeg",
-    "image/3.jpeg",
-    "image/4.jpeg",
-    "image/5.jpeg",
-    "image/6.jpeg",
-    "image/7.jpeg",
-    "image/8.jpeg",
-    "image/9.jpeg",
-    "image/10.jpeg",
-    "image/11.jpeg",
-    "image/12.jpeg",
-    "image/13.jpeg",
-    "image/14.jpeg",
-    "image/15.jpeg",
-    "image/16.jpeg",
-    "image/17.jpeg",
-    "image/18.jpeg",
-    "image/19.jpeg",
-    "image/20.jpeg",
-    "image/21.jpeg",
-    "image/22.jpeg",
-    "image/23.jpeg",
-    "image/24.jpeg",
-    "image/25.jpeg",
-    "image/26.jpeg",
-    "image/27.jpeg",
-    "image/28.jpeg",
-    "image/29.jpeg",
-    "image/30.jpeg",
-    "image/31.jpeg",
-    "image/32.jpeg",
-
+    "image/1.jpeg", "image/2.jpeg", "image/3.jpeg", "image/4.jpeg", "image/5.jpeg", "image/6.jpeg", "image/7.jpeg", "image/8.jpeg", 
+    "image/9.jpeg", "image/10.jpeg", "image/11.jpeg", "image/12.jpeg", "image/13.jpeg", "image/14.jpeg", "image/15.jpeg", "image/16.jpeg", 
+    "image/17.jpeg", "image/18.jpeg", "image/19.jpeg", "image/20.jpeg", "image/21.jpeg", "image/22.jpeg", "image/23.jpeg", "image/24.jpeg", 
+    "image/25.jpeg", "image/26.jpeg", "image/27.jpeg", "image/28.jpeg", "image/29.jpeg", "image/30.jpeg", "image/31.jpeg", "image/32.jpeg",
+    "image/33.png", "image/34.png", "image/35.png", "image/36.png" // BUNLARI EKLEDİK (DİKKAT: Uzantıları .png)
 ];
 
 const reelContainer = document.getElementById('reel-container');

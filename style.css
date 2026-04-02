@@ -1,0 +1,2554 @@
+/* --- Renk Paleti ve Değişkenler --- */
+:root {
+    --bg-dark: #0a0a0c; /* Çok derin, neredeyse siyah bir lacivert */
+    --text-main: #e8e8e8;
+    --apricity: #d4af37; /* Soluk kış güneşi sarısı */
+    --bruised-mauve: #7a5c61; /* Şiirlerindeki o soluk mor/bordo */
+    --anarchy-green: #5c7a6b; /* İzmir Anarşi Yeşili / Teoman hüznü */
+    --font-serif: 'Playfair Display', serif;
+    --font-mono: 'Fira Code', monospace;
+}
+
+/* --- Temel Sıfırlama --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-serif);
+    overflow-x: hidden; /* Sağa sola kaymayı engeller */
+}
+
+/* --- Sinematik Film Greni (Noise) --- */
+.film-grain {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none; /* Tıklamaları engellememesi için */
+    z-index: 9999;
+    opacity: 0.05; /* Sadece hissedilsin, göz yormasın */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* --- Karşılama Ekranı (Hero) --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+}
+
+.title {
+    font-size: 6rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-main);
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+    cursor: crosshair; /* "death olmak istiyorum" tıklaması için hedef işareti */
+    transition: color 0.3s ease;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--bruised-mauve);
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+.hidden-tattoo-text {
+    font-size: 0.8rem;
+    opacity: 0.1;
+    margin-top: 30px;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+/* --- Terminal Kutusu (Mühendis Dokunuşu) --- */
+.terminal-box {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 25px;
+    border-radius: 4px;
+    border: 1px solid rgba(122, 92, 97, 0.3);
+    color: var(--apricity);
+    transition: border-color 0.3s;
+    max-width: 80%;
+}
+
+.terminal-box:hover {
+    border-color: var(--anarchy-green);
+}
+
+.prompt {
+    color: var(--anarchy-green); /* Hafif yosun yeşili */
+}
+
+/* Yanıp sönen imleç animasyonu */
+.cursor {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Arka planda yüzecek yazılar için hazırlık sınıfı */
+.floating-text-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* --- Timeline Bölümü --- */
+.timeline-section {
+    padding: 100px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+}
+
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Ortadaki Dikey Çizgi */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: rgba(212, 175, 55, 0.3); /* Soluk apricity */
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+}
+
+/* Timeline Kutuları (Sol ve Sağ) */
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+    opacity: 0; /* Başlangıçta görünmez (JS ile açılacak) */
+    transform: translateY(50px);
+    transition: all 0.8s ease-out;
+}
+
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.left { left: 0; }
+.right { left: 50%; }
+
+/* Ortadaki Noktalar */
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: -8px;
+    background-color: var(--bg-dark);
+    border: 2px solid var(--bruised-mauve);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.right::after { left: -8px; }
+
+/* İçerik Kutusu Tasarımı */
+.timeline-content {
+    padding: 20px 30px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+}
+
+.timeline-content h2 {
+    color: var(--apricity);
+    font-size: 2rem;
+    margin-bottom: 5px;
+    font-family: var(--font-serif);
+    font-style: italic;
+}
+
+.timeline-content h3 {
+    color: var(--text-main);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-family: var(--font-mono);
+    opacity: 0.8;
+}
+
+.timeline-content p {
+    color: #a0a0a0;
+    font-family: var(--font-serif);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* --- Şiir Galerisi (Clairelei's Notebook) --- */
+.poetry-section {
+    padding: 100px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+}
+
+.poetry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.poem-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(122, 92, 97, 0.2);
+    border-radius: 12px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.4s ease, border-color 0.4s ease;
+    height: 350px;
+    overflow-y: auto;
+}
+
+.poem-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--apricity);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.poem-card h3 {
+    font-family: var(--font-serif);
+    color: var(--text-main);
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    font-style: italic;
+}
+
+.poem-card .date {
+    display: block;
+    font-family: var(--font-mono);
+    color: var(--anarchy-green);
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.poem-card p {
+    font-family: var(--font-serif);
+    color: #b0b0b0;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.poem-card::-webkit-scrollbar { width: 4px; }
+.poem-card::-webkit-scrollbar-track { background: transparent; }
+.poem-card::-webkit-scrollbar-thumb { background: rgba(122, 92, 97, 0.3); border-radius: 10px; }
+.poem-card::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.5); }
+
+/* --- Bölüm Başlıkları --- */
+.section-title {
+    text-align: center;
+    color: var(--apricity);
+    font-size: 2.5rem;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--bruised-mauve);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 50px;
+    opacity: 0.8;
+}
+
+/* --- Duvarlar (Hate & Love) --- */
+.hate-wall-section, .love-wall-section, .algorithm-section {
+    padding: 80px 20px;
+    position: relative;
+    z-index: 5;
+}
+
+.hate-wall-section {
+    background: linear-gradient(to bottom, var(--bg-dark), #120a0b); /* Hafif bordoya geçiş */
+}
+
+.love-wall-section {
+    background: linear-gradient(to bottom, #120a0b, var(--bg-dark)); /* Kırmızıdan karanlığa geri dönüş */
+}
+
+.reviews-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.review-card {
+    padding: 25px;
+    border-radius: 8px;
+    width: calc(50% - 20px);
+    min-width: 300px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.hate-wall-section .review-card {
+    background-color: rgba(200, 50, 50, 0.03); 
+    border: 1px solid rgba(200, 50, 50, 0.15);
+}
+
+.hate-wall-section .review-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(200, 50, 50, 0.5);
+}
+
+.love-card {
+    background-color: rgba(212, 175, 55, 0.03); 
+    border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.love-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+}
+
+.movie-name {
+    font-family: var(--font-mono);
+    color: #e8e8e8;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.stars {
+    color: #cc0000;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.review-card p {
+    font-style: italic;
+    color: #c0c0c0;
+    line-height: 1.5;
+}
+
+/* --- Film Algoritması Bölümü --- */
+.algorithm-section {
+    text-align: center;
+    min-height: 40vh;
+}
+
+.terminal-btn {
+    background-color: transparent;
+    border: 1px solid var(--apricity);
+    color: var(--apricity);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.terminal-btn:hover {
+    background-color: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.movie-result-box {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px dashed var(--anarchy-green);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    transition: opacity 0.5s ease;
+}
+
+.movie-result-box.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none; 
+}
+
+#result-title {
+    color: var(--text-main);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+#result-desc {
+    color: #a0a0a0;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* --- JavaScript Animasyonları İçin Sınıflar --- */
+.floating-quote {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.08); /* Çok silik, hayalet gibi */
+    font-size: 1.2rem;
+    font-style: italic;
+    white-space: nowrap;
+    pointer-events: none; /* Üzerine tıklanmasını engeller */
+    animation: drift linear infinite;
+}
+
+@keyframes drift {
+    0% { transform: translateY(110vh) translateX(-20px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
+}
+
+/* --- Tıklama Efekti (Soyut Çiçek / Kök) --- */
+.flower-container {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.petal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 35px;
+    background: transparent;
+    border: 1px solid var(--bruised-mauve);
+    border-radius: 50% 50% 0 50%;
+    transform-origin: bottom center;
+    opacity: 0;
+    box-shadow: inset 0 0 10px rgba(122, 92, 97, 0.4);
+    animation: bloomPetal 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.petal:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg); }
+.petal:nth-child(2) { transform: translate(-50%, -100%) rotate(90deg); animation-delay: 0.1s; }
+.petal:nth-child(3) { transform: translate(-50%, -100%) rotate(180deg); animation-delay: 0.2s; }
+.petal:nth-child(4) { transform: translate(-50%, -100%) rotate(270deg); animation-delay: 0.3s; }
+
+.flower-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background-color: var(--apricity);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--apricity);
+    animation: coreGlow 1.5s ease-out forwards;
+}
+
+/* Kök Parçası Yazısı */
+.root-text { 
+    position: absolute; 
+    top: 70%; left: 50%; 
+    transform: translateX(-50%); 
+    color: var(--apricity); 
+    font-family: var(--font-mono); 
+    font-size: 0.6rem; 
+    opacity: 0; 
+    animation: textFade 1.5s ease-out forwards; 
+}
+
+@keyframes bloomPetal { 
+    0% { height: 0; opacity: 0; } 
+    30% { height: 35px; opacity: 0.8; } 
+    70% { height: 35px; opacity: 0.5; } 
+    100% { height: 45px; opacity: 0; filter: blur(2px); } 
+}
+@keyframes coreGlow { 
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 
+    50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; } 
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; } 
+}
+@keyframes textFade { 
+    0% { opacity: 0; transform: translate(-50%, 10px); } 
+    30% { opacity: 0.6; transform: translate(-50%, 0); } 
+    100% { opacity: 0; transform: translate(-50%, -10px); } 
+}
+
+/* --- Mobil Uyumluluk --- */
+@media screen and (max-width: 600px) {
+  .timeline::after { left: 31px; }
+  .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+  .timeline-item::after { left: 23px; }
+  .right { left: 0%; }
+}
+/* --- YENİ EKLENTİLER --- */
+
+/* 1. Duality Section (Kaos ve Şiir) */
+.duality-section {
+    padding: 80px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+}
+.duality-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+.duality-card {
+    flex: 1;
+    min-width: 300px;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.duality-card.poetic {
+    background: linear-gradient(135deg, rgba(122, 92, 97, 0.1), transparent);
+    border-color: rgba(122, 92, 97, 0.4);
+}
+.duality-card.chaotic {
+    background: linear-gradient(135deg, rgba(92, 122, 107, 0.1), transparent); /* Anarchy Green tint */
+    border-color: rgba(92, 122, 107, 0.4);
+}
+.card-header {
+    font-family: var(--font-mono);
+    color: var(--apricity);
+    margin-bottom: 20px;
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.duality-card p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: #ccc;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+.duality-card.chaotic p {
+    font-style: normal;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* 2. Windows Notepad Estetiği */
+.notepad-section {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 5;
+}
+.windows-notepad {
+    width: 100%;
+    max-width: 600px;
+    background-color: #fff;
+    border: 2px solid #dfdfdf;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    color: #000;
+}
+.notepad-header {
+    background-color: #000080; /* Klasik Windows Mavi */
+    color: #fff;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 0.9rem;
+}
+.notepad-controls span {
+    background-color: #c0c0c0;
+    color: #000;
+    padding: 0 5px;
+    margin-left: 3px;
+    border: 1px solid #fff;
+    border-bottom-color: #808080;
+    border-right-color: #808080;
+    cursor: pointer;
+    font-weight: bold;
+}
+.notepad-menu {
+    background-color: #ece9d8;
+    padding: 5px 10px;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #ccc;
+}
+.notepad-content {
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    min-height: 200px;
+}
+.blinking-cursor {
+    animation: blink 1s step-end infinite;
+}
+
+/* 3. Cinematic Frame (Sinema Perdesi) */
+.cinematic-section {
+    padding: 80px 20px;
+    position: relative;
+    z-index: 5;
+    background-color: #000;
+}
+.cinema-screen {
+    max-width: 800px;
+    margin: 0 auto;
+    aspect-ratio: 21 / 9; /* Tam sinematik ekran boyutu */
+    background-color: #111;
+    border: 1px solid #222;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 30px;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
+}
+.subtitle-text {
+    font-family: Arial, sans-serif;
+    color: #ffcc00; /* Klasik sarı film altyazısı */
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;
+    text-align: center;
+    padding: 0 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+/* --- Easter Egg: Cat Pop-up --- */
+.cat-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.9);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px dashed var(--apricity);
+    z-index: 99999; /* Hiçbir şeyin altında kalmaması için */
+    text-align: center;
+    pointer-events: none; /* Gizliyken tıklanmayı engeller */
+    opacity: 0;
+    transform: translateY(150%);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Tatlı bir zıplama efekti */
+}
+
+.cat-popup.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+/* --- YENİ BÖLÜM: iPhone Notes Estetiği --- */
+.iphone-notes-section {
+    padding: 80px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+}
+
+.iphone-container {
+    display: flex;
+    max-width: 900px;
+    margin: 0 auto;
+    height: 500px;
+    background-color: #1c1c1e; /* Apple koyu gri */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    border: 1px solid #333;
+}
+
+/* Sol Menü */
+.notes-sidebar {
+    width: 35%;
+    background-color: #2c2c2e;
+    border-right: 1px solid #38383a;
+    display: flex;
+    flex-direction: column;
+}
+
+.notes-header {
+    padding: 15px;
+    color: var(--apricity); /* Apple sarısı tonu */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    border-bottom: 1px solid #38383a;
+    display: flex;
+    justify-content: space-between;
+}
+
+.notes-list {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.note-item {
+    padding: 15px;
+    border-bottom: 1px solid #38383a;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.note-item:hover {
+    background-color: #3a3a3c;
+}
+
+.note-item.active {
+    background-color: #3a3a3c; /* Seçili not rengi */
+}
+
+.note-item h4 {
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.note-item .note-time {
+    color: #8e8e93;
+    font-size: 0.8rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.note-item p {
+    color: #8e8e93;
+    font-size: 0.85rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Sağ Taraf (İçerik) */
+.note-content-area {
+    width: 65%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.note-content-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.note-date {
+    color: #8e8e93;
+    font-size: 0.8rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.note-text-body {
+    color: #e5e5ea;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-right: 10px;
+}
+
+/* Scrollbar Tasarımı */
+.notes-list::-webkit-scrollbar, .note-text-body::-webkit-scrollbar {
+    width: 6px;
+}
+.notes-list::-webkit-scrollbar-thumb, .note-text-body::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .iphone-container {
+        flex-direction: column;
+        height: 600px;
+    }
+    .notes-sidebar {
+        width: 100%;
+        height: 40%;
+        border-right: none;
+        border-bottom: 1px solid #38383a;
+    }
+    .note-content-area {
+        width: 100%;
+        height: 60%;
+    }
+
+}
+/* --- YENİ BÖLÜM: Ece's Dictionary --- */
+.dictionary-section {
+    padding: 100px 20px;
+    background-color: #0d0d0f;
+    position: relative;
+    z-index: 5;
+}
+
+.dictionary-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.dictionary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.dict-item {
+    border-left: 2px solid var(--bruised-mauve);
+    padding-left: 20px;
+    transition: all 0.3s ease;
+}
+
+.dict-item:hover {
+    border-left-color: var(--apricity);
+    transform: translateX(5px);
+}
+
+.dict-item dfn {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    font-style: italic;
+    display: block;
+}
+
+.dict-item .word-type {
+    font-family: var(--font-mono);
+    color: var(--anarchy-green);
+    font-size: 0.8rem;
+    text-transform: lowercase;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.dict-item p {
+    font-family: var(--font-mono);
+    color: #909090;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+/* --- YENİ BÖLÜM: Polaroid Moodboard --- */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+
+.polaroid-section {
+    padding: 100px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.polaroid-board {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 0;
+    min-height: 60vh;
+}
+
+.polaroid-card {
+    background: #f9f9f9;
+    padding: 15px 15px 30px 15px;
+    border-radius: 2px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0,0,0,0.1);
+    width: 260px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Yumuşak bir düzelme efekti */
+    position: relative;
+    filter: grayscale(80%) sepia(20%); /* Başlangıçta eski ve soluk bir filtre */
+}
+
+.polaroid-card:hover {
+    transform: scale(1.15) rotate(0deg) !important; /* Üzerine gelince düzleşir ve büyür */
+    z-index: 50;
+    box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.9);
+    filter: grayscale(0%) sepia(0%); /* Üzerine gelince renkler canlanır */
+}
+
+.polaroid-img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    background-color: #111;
+    border: 1px solid #ddd;
+}
+
+.polaroid-caption {
+    font-family: 'Caveat', cursive; /* Gerçekçi el yazısı fontu */
+    font-size: 1.4rem;
+    color: #222;
+    text-align: center;
+    margin-top: 15px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.polaroid-date {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: #888;
+    text-align: right;
+    display: block;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+/* --- YENİ BÖLÜM: Letterboxd Wrapped --- */
+/* --- YENİ BÖLÜM: Letterboxd Diary --- */
+.diary-section {
+    padding: 100px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+}
+
+.diary-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #14181c; /* Letterboxd arka planı */
+    border-radius: 12px;
+    border: 1px solid #2c3440;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.diary-filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #2c3440;
+    padding-bottom: 20px;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid #445566;
+    color: #8fa9c5;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background-color: #00e600; /* Letterboxd yeşili */
+    color: #fff;
+    border-color: #00e600;
+}
+
+.filter-btn[data-filter="trash"].active {
+    background-color: #ff8000; /* Nefret edilenler için turuncu */
+    border-color: #ff8000;
+}
+/* --- YENİ BÖLÜM: The Cinematic Vault (Grid & Cards) --- */
+.vault-section {
+    padding: 100px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+}
+
+.vault-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Şık Filtre Butonları */
+.vault-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.vault-tab {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #8fa9c5;
+    padding: 12px 25px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border-radius: 4px;
+    backdrop-filter: blur(5px);
+}
+
+.vault-tab.active, .vault-tab:hover {
+    background: rgba(212,175,55,0.1);
+    color: var(--text-main);
+    border-color: var(--apricity);
+    box-shadow: 0 0 20px rgba(212,175,55,0.3);
+}
+
+.vault-tab[data-filter="trash"].active, .vault-tab[data-filter="trash"]:hover {
+    background: rgba(200,50,50,0.1);
+    border-color: #cc0000;
+    box-shadow: 0 0 20px rgba(200,50,50,0.4);
+}
+
+/* Duvar Görünümü (Masonry Grid) */
+.vault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    max-height: 650px; /* Kaydırma alanı */
+    overflow-y: auto;
+    padding: 20px 10px;
+}
+
+.vault-grid::-webkit-scrollbar { width: 6px; }
+.vault-grid::-webkit-scrollbar-thumb { background: var(--bruised-mauve); border-radius: 10px; }
+
+/* Film Kartları (Kaset Görünümü) */
+.vault-card {
+    background: #111214;
+    border: 1px solid #222;
+    padding: 25px 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    overflow: hidden;
+    min-height: 160px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.vault-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.vault-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+/* Masterpiece (Başyapıtlar) Stili */
+.vault-card.masterpiece { border-color: rgba(212,175,55,0.2); }
+.vault-card.masterpiece::before { background: var(--apricity); }
+.vault-card.masterpiece .v-title {
+    color: var(--apricity);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.4rem;
+}
+.masterpiece .v-rating { color: var(--apricity); text-shadow: 0 0 10px rgba(212,175,55,0.6); }
+
+/* Trash (Nefret Ettikleri) Stili */
+.vault-card.trash { border-color: rgba(200,50,50,0.2); background: #160a0a; }
+.vault-card.trash::before { background: #cc0000; }
+.vault-card.trash .v-title {
+    color: #ff6666;
+    font-family: var(--font-mono);
+    text-decoration: line-through; /* Üstü çizili */
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+.trash .v-rating { color: #cc0000; }
+.vault-card.trash:hover {
+    /* Sinir bozucu hafif titreme efekti */
+    animation: rageShake 0.3s infinite alternate;
+}
+
+/* Regular (Ortalamalar) Stili */
+.vault-card.regular::before { background: var(--bruised-mauve); }
+.vault-card.regular .v-title {
+    color: var(--text-main);
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+}
+.regular .v-rating { color: var(--bruised-mauve); }
+
+/* Ortak Metin Stilleri */
+.v-year {
+    color: #666;
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    margin-top: 8px;
+    display: block;
+}
+.v-rating {
+    font-size: 1.3rem;
+    margin-top: 20px;
+    letter-spacing: 3px;
+    align-self: flex-end; /* Yıldızları sağ alta yaslar */
+}
+
+@keyframes rageShake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+/* --- YENİ BÖLÜM: The Bruised Mauve Mixtape --- */
+.mixtape-section {
+    padding: 100px 20px;
+    background: linear-gradient(180deg, var(--bg-dark) 0%, #0d1115 100%);
+    position: relative;
+    z-index: 5;
+}
+
+.mixtape-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+
+/* Plak Animasyonu */
+.player-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.vinyl-wrapper {
+    position: relative;
+    width: 250px;
+    height: 250px;
+}
+
+.vinyl-record {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(30deg, #111 10%, #222 50%, #111 90%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 15px rgba(255,255,255,0.1);
+    animation: spin 4s linear infinite;
+    animation-play-state: running; /* Müzik değişince durdur/başlat yapacağız */
+    border: 2px solid #0a0a0c;
+}
+
+.vinyl-record::before, .vinyl-record::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.vinyl-record::before { width: 80%; height: 80%; }
+.vinyl-record::after { width: 60%; height: 60%; }
+
+.vinyl-label {
+    width: 35%;
+    height: 35%;
+    background: var(--bruised-mauve);
+    border-radius: 50%;
+    position: relative;
+    transition: background 0.5s ease;
+}
+
+.vinyl-hole {
+    width: 15px;
+    height: 15px;
+    background: var(--bg-dark);
+    border-radius: 50%;
+    position: absolute;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.spotify-embed {
+    width: 100%;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+    border-radius: 12px;
+}
+
+/* Playlist Tasarımı */
+.playlist-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tracklist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.track {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.track:hover { background: rgba(255,255,255,0.05); }
+
+.track.active {
+    background: rgba(30, 215, 96, 0.1); /* Spotify Yeşili Glow */
+    border-left-color: #1DB954;
+}
+
+.track-number {
+    font-family: var(--font-mono);
+    color: #666;
+    font-size: 0.9rem;
+    margin-right: 15px;
+}
+
+.track.active .track-number { color: #1DB954; }
+
+.track-info { flex: 1; }
+.track-info h4 { color: #fff; font-size: 1rem; margin-bottom: 3px; font-family: var(--font-serif); }
+.track-info span { color: #888; font-size: 0.8rem; font-family: var(--font-mono); }
+
+/* Müzik Çalıyor Animasyonu (Sağ taraftaki minik çubuklar) */
+.playing-gif { display: none; gap: 3px; height: 15px; align-items: flex-end; }
+.playing-gif span { width: 3px; background: #1DB954; animation: equalize 1s infinite; }
+.playing-gif span:nth-child(1) { animation-delay: 0.1s; height: 60%; }
+.playing-gif span:nth-child(2) { animation-delay: 0.3s; height: 100%; }
+.playing-gif span:nth-child(3) { animation-delay: 0.5s; height: 40%; }
+.track.active .playing-gif { display: flex; }
+
+@keyframes equalize { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+
+/* Ece'nin Alıntıları */
+.track-notes {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    border: 1px dashed var(--bruised-mauve);
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: #d0d0d0;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    transition: opacity 0.3s ease;
+}
+
+@media screen and (max-width: 768px) {
+    .mixtape-container { flex-direction: column; }
+}
+/* --- YENİ BÖLÜM: Ruhun Mimarları (DNA Section) --- */
+.dna-section {
+    padding: 100px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+}
+
+.dna-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 50px auto 0;
+}
+
+.dna-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 30px 20px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.dna-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    border-color: rgba(122, 92, 97, 0.3); /* bruised-mauve glow */
+}
+
+.dna-card-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+}
+
+.dna-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 10px rgba(212,175,55,0.3)); /* apricity glow */
+}
+
+.dna-card-header h3 {
+    font-family: var(--font-serif);
+    color: var(--apricity);
+    font-size: 1.5rem;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.dna-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dna-item {
+    position: relative;
+    padding-left: 15px;
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.dna-item:hover {
+    border-left-color: var(--apricity);
+}
+
+.dna-item h4 {
+    font-family: var(--font-mono);
+    color: var(--text-main);
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.dna-item p {
+    font-family: var(--font-serif);
+    color: #909090;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* Mobil için optimizasyon */
+@media screen and (max-width: 768px) {
+    .dna-container {
+        grid-template-columns: 1fr;
+    }
+}
+/* --- Infinite Soundwall Styles --- */
+.soundwall-section {
+    padding: 60px 0;
+    background: #050505;
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.soundwall-overlay {
+    position: relative;
+    z-index: 10;
+    pointer-events: none;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.marquee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0.4; /* Arka planda kalması için */
+    transition: opacity 0.5s;
+}
+
+.marquee-container:hover {
+    opacity: 0.8; /* Fareyle gelince netleşsin */
+}
+
+.marquee-row {
+    display: flex;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    color: var(--text-main);
+    user-select: none;
+}
+
+.marquee-row span {
+    padding: 0 40px;
+    display: inline-block;
+}
+
+/* Animasyonlar */
+/* --- Hızlandırılmış Animasyon Süreleri --- */
+.fast { 
+    animation: marquee-scroll 15s linear infinite; /* 40sn -> 15sn: Çok Hızlı */
+}
+
+.medium { 
+    animation: marquee-scroll 25s linear infinite; /* 60sn -> 25sn: Orta-Hızlı */
+}
+
+.slow { 
+    animation: marquee-scroll 40s linear infinite; /* 90sn -> 40sn: Akıcı */
+}
+
+/* Eğer çok daha kaotik bir hız istersen:
+   fast: 8s
+   medium: 12s
+   slow: 20s yapabilirsin. */
+
+@keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Şarkı isimleri için özel renkler */
+.marquee-row span:nth-child(odd) { color: var(--apricity); opacity: 0.7; }
+.marquee-row span:nth-child(even) { color: var(--bruised-mauve); }
+
+.marquee-container:hover .marquee-row {
+    animation-play-state: paused; /* Üzerine gelince durur */
+    /* Veya yavaşlaması için hızı artırabiliriz ama 'paused' en temizi olur. */
+}
+/* --- THE HEART CORE: FINAL & GELİŞMİŞ TASARIM --- */
+.heart-section {
+    padding: 100px 20px;
+    background: radial-gradient(circle at center, #1a0f11 0%, var(--bg-dark) 70%);
+    position: relative;
+    z-index: 5;
+}
+
+.heart-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 50px auto 0;
+}
+
+.trait-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(122, 92, 97, 0.2);
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    cursor: help;
+}
+
+.trait-card:hover {
+    background: rgba(122, 92, 97, 0.05);
+    border-color: var(--apricity);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.trait-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    filter: grayscale(1) brightness(0.8);
+    transition: all 0.5s;
+}
+
+/* İkonun üzerine gelince parlaması ve dönmesi */
+.trait-card:hover .trait-icon {
+    filter: grayscale(0) brightness(1.2) drop-shadow(0 0 15px var(--apricity));
+    transform: scale(1.2) rotate(10deg);
+}
+
+.trait-card h3 {
+    font-family: var(--font-serif);
+    color: var(--apricity);
+    margin-bottom: 15px;
+    font-style: italic;
+    font-size: 1.5rem;
+}
+
+.trait-desc {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.5;
+    transition: opacity 0.3s;
+}
+
+/* Hover durumunda açılan derin analiz metni */
+.trait-quote {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(20, 15, 16, 0.98); /* Daha koyu ve okunur bir fon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.95rem; /* Uzun metinler için ideal boyut */
+    line-height: 1.6;
+    color: var(--text-main);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--apricity);
+    border-radius: 20px;
+    text-align: center;
+    z-index: 2;
+}
+
+/* Metnin altındaki ve üstündeki o şık çizgiler */
+.trait-quote span {
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 15px 0;
+    display: block;
+}
+
+.trait-card:hover .trait-quote {
+    opacity: 1;
+}
+
+.trait-card:hover .trait-desc {
+    opacity: 0;
+}
+/* --- Inventory Section Styles --- */
+/* --- Inventory Section Styles --- */
+.inventory-section {
+    padding: 80px 20px 150px 20px; /* DÜZELTME BURADA: Alttaki 150px boşluk, yazıların kesilmesini önler */
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 10; /* Z-index değerini 5'ten 10'a çıkardık ki alttaki section'ın üstüne çıksın */
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+}
+
+.inventory-item {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: crosshair;
+    transition: all 0.4s ease;
+    border-radius: 4px;
+}
+
+.inventory-item:hover {
+    background: rgba(122, 92, 97, 0.1);
+    border-color: var(--apricity);
+    transform: scale(1.05);
+    z-index: 999; /* DÜZELTME BURADA: Açılan kutu kesinlikle en üstte kalsın */
+}
+
+.item-icon {
+    font-size: 2.5rem;
+    filter: grayscale(1) opacity(0.6);
+    transition: all 0.4s ease;
+}
+
+.inventory-item:hover .item-icon {
+    filter: grayscale(0) opacity(1);
+    transform: translateY(-10px);
+}
+
+/* Hover Bilgi Kutusu (Tooltip) */
+.item-info {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    background: #0d0d0f;
+    border: 1px solid var(--apricity);
+    padding: 15px;
+    width: 220px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+}
+
+.inventory-item:hover .item-info {
+    opacity: 1;
+    bottom: 10px;
+    pointer-events: auto;
+}
+
+.item-info h4 {
+    font-family: var(--font-mono);
+    color: var(--apricity);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.item-info p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: #ccc;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* Sayfa Kenarlarındaki Siyah Gradyan */
+.inventory-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 90%);
+    pointer-events: none;
+}
+/* Izgara yapısını biraz daha sıkılaştırıyoruz */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 180'den 150'ye çektik */
+    gap: 15px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+}
+
+/* İkonların daha net görünmesi için */
+.item-icon {
+    font-size: 2.8rem; /* Biraz büyüttük */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Tooltip (Bilgi kutusu) için mobil uyum ayarı */
+@media (max-width: 600px) {
+    .item-info {
+        width: 180px;
+        font-size: 0.75rem;
+    }
+}
+/* --- Lost Archives (Glitch Section) Styles --- */
+.archive-section {
+    padding: 120px 20px;
+    background-color: #050505;
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* VHS Parazit Efekti */
+.vhs-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.3;
+}
+
+.archive-container {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+}
+
+.archive-header {
+    font-family: var(--font-mono);
+    color: #ff0000;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    letter-spacing: 3px;
+    text-align: left;
+}
+
+.rec-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #ff0000;
+    border-radius: 50%;
+    margin-right: 5px;
+    animation: blink 1s infinite;
+}
+
+/* Glitch Başlık Efekti */
+.glitch-text {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    color: #fff;
+    position: relative;
+    display: inline-block;
+}
+
+.glitch-text::before, .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #050505;
+}
+
+.glitch-text::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+    left: -2px;
+    text-shadow: -2px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+/* Story İçeriği */
+.story-viewer {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.story-content {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-style: italic;
+    color: var(--text-main);
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    transition: all 0.2s ease;
+}
+
+.vhs-controls {
+    margin-top: 40px;
+    font-family: var(--font-mono);
+    color: rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Glitch Animasyonu */
+@keyframes glitch-anim {
+  0% { clip: rect(31px, 9999px, 94px, 0); }
+  20% { clip: rect(62px, 9999px, 42px, 0); }
+  40% { clip: rect(16px, 9999px, 78px, 0); }
+  60% { clip: rect(81px, 9999px, 13px, 0); }
+  80% { clip: rect(95px, 9999px, 37px, 0); }
+  100% { clip: rect(14px, 9999px, 60px, 0); }
+}
+/* --- The Flight Path Styles --- */
+.flight-path-section {
+    padding: 120px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    overflow: hidden;
+}
+
+.flight-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px;
+    margin: 80px auto;
+    position: relative;
+    height: 200px;
+}
+
+/* Şehir Noktaları */
+.location-point {
+    position: relative;
+    z-index: 10;
+}
+
+.point-circle {
+    width: 12px;
+    height: 12px;
+    background: var(--apricity);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--apricity);
+    margin: 0 auto 15px;
+}
+
+.point-label h4 {
+    font-family: var(--font-serif);
+    color: var(--text-main);
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.point-label span {
+    font-family: var(--font-mono);
+    color: #666;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Çizgi ve Kuş Konteynırı */
+.path-svg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.path-line-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.bird-messenger {
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+}
+
+/* Alttaki Yazı */
+.path-description {
+    max-width: 600px;
+    margin: 40px auto 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: #888;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+    .flight-container {
+        flex-direction: column;
+        height: 400px;
+        justify-content: space-around;
+    }
+    .path-svg-container {
+        transform: rotate(90deg) scale(1.5);
+    }
+}
+.bird-messenger {
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+    /* Kuşun uçuş yönüne göre hafifçe eğilmesi için */
+    transform-origin: center;
+}
+
+/* Yolun daha zarif görünmesi için */
+#flight-curve {
+    stroke-linecap: round;
+}
+/* --- Memory Reel (Film Strip) Styles --- */
+.memory-reel-section {
+    padding: 100px 20px;
+    background-color: #08080a;
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+    text-align: center;
+}
+
+.reel-container {
+    max-width: 900px;
+    height: 400px;
+    margin: 50px auto 0;
+    background: #000;
+    position: relative;
+    border-left: 15px solid #111; /* Film delikleri için kenarlık */
+    border-right: 15px solid #111;
+    cursor: crosshair; /* Çizme hissi için imleç */
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+/* Film Şeridi Dokusu (Üst Layer) */
+.film-strip-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(90deg, transparent 0px, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 41px);
+    z-index: 3;
+    pointer-events: none; /* Fare alt katmana geçsin */
+}
+
+/* Fotoğrafların Belireceği Alan (Alt Layer) */
+.photo-viewer {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reel-photo {
+    position: absolute;
+    max-width: 90%;
+    max-height: 90%;
+    opacity: 0;
+    /* 0.1s yerine 0.4s yaparak daha sinematik bir geçiş sağlıyoruz */
+    transition: opacity 0.4s ease-in-out, transform 0.3s ease;
+    filter: grayscale(0.2) contrast(1.1); /* Biraz renk ekledik ki netleşsin */
+    border: 8px solid #fff; 
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+/* Yırtık Kenar Efektleri */
+.torn-edge {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: #08080a;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.torn-edge.top {
+    top: -10px;
+    clip-path: polygon(0% 100%, 5% 40%, 10% 80%, 15% 20%, 20% 60%, 25% 10%, 30% 70%, 35% 30%, 40% 90%, 45% 50%, 50% 100%, 55% 40%, 60% 80%, 65% 20%, 70% 60%, 75% 10%, 80% 70%, 85% 30%, 90% 90%, 95% 50%, 100% 100%);
+}
+
+.torn-edge.bottom {
+    bottom: -10px;
+    clip-path: polygon(0% 0%, 5% 60%, 10% 20%, 15% 80%, 20% 40%, 25% 90%, 30% 30%, 35% 70%, 40% 10%, 45% 50%, 50% 0%, 55% 60%, 60% 20%, 65% 80%, 70% 40%, 75% 90%, 80% 30%, 85% 70%, 90% 10%, 95% 50%, 100% 0%);
+}
+/* --- ANALOG FILM GRAIN & NOISE EFFECT --- */
+.film-grain-overlay {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    width: 200%;
+    height: 200%;
+    /* Çok hafif karıncalanma dokusu */
+    background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Noisy_Texture.png');
+    background-repeat: repeat;
+    opacity: 0.04; /* NEREDEYSE FARK EDİLMEYECEK KADAR HAFİF: Ece'nin gözü yorulmasın */
+    z-index: 9999; /* Her şeyin üstünde */
+    pointer-events: none; /* Mouse tıklamalarını engellemez, alttaki butonlar çalışır */
+    animation: grain-jump 0.2s steps(1) infinite;
+}
+
+/* Dokuyu rastgele zıplatan animasyon (Analog hissi verir) */
+@keyframes grain-jump {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-5%, -10%); }
+    30% { transform: translate(-15%, 5%); }
+    50% { transform: translate(7%, 9%); }
+    70% { transform: translate(-3%, 12%); }
+    90% { transform: translate(13%, 1%); }
+}
+
+/* Siteye genel bir retro yumuşaklık katmak istersen body'e bunu da ekleyebilirsin: */
+body {
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.01em;
+}
+/* --- AESTHETIC CUSTOM CURSOR --- */
+/* Standart imleci tüm sitede gizle */
+html, body {
+    cursor: none;
+}
+
+a, button, .track, .vault-card, .inventory-item, .bird-messenger, .reel-container {
+    cursor: none; /* Etkileşimli alanlarda da gizli kalsın */
+}
+
+/* Merkezdeki küçük nokta */
+.cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--apricity);
+    position: fixed;
+    top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 10001;
+    pointer-events: none;
+    transition: width 0.3s, height 0.3s, opacity 0.3s;
+}
+
+/* Dıştaki takip eden geniş halka */
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    position: fixed;
+    top: 0; left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 10000;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* İmleç içindeki fısıltı metni */
+.cursor-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--apricity);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s ease;
+}
+
+/* HOVER DURUMLARI (JS ile tetiklenecek) */
+.cursor-outline.hovered {
+    width: 80px;
+    height: 80px;
+    background: rgba(212, 175, 55, 0.1);
+    border-color: var(--apricity);
+}
+
+.cursor-outline.hovered .cursor-text {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.cursor-dot.hovered {
+    opacity: 0; /* Üzerine gelince nokta kaybolsun, halka büyüsün */
+}
+.quote-text {
+    animation: quote-fade 0.5s ease-in-out;
+}
+
+@keyframes quote-fade {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+        filter: blur(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+/* --- Daily Quote Styles --- */
+.quote-section {
+    padding: 40px 20px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.quote-container {
+    max-width: 800px;
+    width: 100%;
+}
+
+.quote-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    padding: 20px 30px;
+    border-radius: 50px; /* Hap şeklinde tasarım */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.quote-box:hover {
+    border-color: var(--apricity);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.quote-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--apricity);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-right: 20px;
+    white-space: nowrap;
+}
+
+.quote-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    flex: 1;
+    margin: 0;
+}
+
+.refresh-btn {
+    background: transparent;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px;
+}
+
+.refresh-btn:hover {
+    color: var(--apricity);
+    transform: rotate(180deg);
+}
+
+@media (max-width: 600px) {
+    .quote-box {
+        flex-direction: column;
+        border-radius: 20px;
+        text-align: center;
+        gap: 15px;
+    }
+    .quote-label { margin-right: 0; }
+}
+#daily-quote {
+    transition: all 0.3s ease-in-out;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Daksil (Sansür/Şerit) Efekti */
+#daily-quote.daksille {
+    background-color: #fff !important; /* Daksil beyazı */
+    color: #fff !important; /* Yazı tamamen kaybolur */
+    transform: scaleX(1.05); /* Hafifçe genişler */
+}
+.cursor-dot, .cursor-outline {
+    pointer-events: none; /* Tıklamalar bu katmanı delip butona ulaşsın */
+}
+/* --- ECE'S LETTERBOXD REVIEW CARD --- */
+.site-review-section {
+    padding: 60px 20px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.review-container {
+    max-width: 600px;
+    width: 100%;
+}
+
+.letterboxd-card {
+    background: #14181c; /* Klasik Letterboxd Gri/Mavisi */
+    border: 1px solid #2c3440;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #9ab;
+    transition: transform 0.3s ease;
+}
+
+.letterboxd-card:hover {
+    transform: translateY(-5px);
+    border-color: #445566;
+}
+
+.lb-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #2c3440;
+    padding-bottom: 15px;
+}
+
+.lb-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00e054; /* Letterboxd Yeşili */
+}
+
+.lb-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.lb-user {
+    font-size: 0.85rem;
+    color: #fff;
+}
+
+.lb-user strong {
+    font-weight: 700;
+}
+
+.lb-movie {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: var(--font-serif);
+}
+
+.lb-year {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #678;
+}
+
+.lb-rating {
+    color: #00e054; /* Letterboxd Yıldız Yeşili */
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 2px;
+}
+
+.lb-body {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #c8d4e0;
+}
+
+.lb-body p {
+    margin-bottom: 15px;
+}
+
+.lb-body em {
+    color: #fff;
+    font-style: italic;
+}
+
+.lb-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #2c3440;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #678;
+}
+
+.lb-likes {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.lb-likes:hover {
+    color: #ff8000; /* Beğenilince Letterboxd turuncusu */
+}
+
+.lb-likes:hover svg {
+    fill: #ff8000;
+    stroke: #ff8000;
+}
+/* --- DIAGNOSTIC TERMINAL STYLES --- */
+.diagnostic-terminal {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #0a0a0c;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    text-align: left;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+.terminal-header {
+    background: #111;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.red-dot, .yellow-dot, .green-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+}
+.red-dot { background: #ff5f56; }
+.yellow-dot { background: #ffbd2e; }
+.green-dot { background: #27c93f; }
+.terminal-title { color: #666; font-size: 0.8rem; margin-left: 10px; }
+
+.terminal-body {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.terminal-label {
+    color: #00e054; /* Letterboxd/Terminal Yeşili */
+    font-size: 0.9rem;
+}
+
+.terminal-select {
+    background: #1a1a1c;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.terminal-select:focus { border-color: #00e054; }
+
+.terminal-btn {
+    background: transparent;
+    color: #00e054;
+    border: 1px solid #00e054;
+    padding: 15px;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.terminal-btn:hover { background: rgba(0, 224, 84, 0.1); }
+
+/* Reçete (Fiş) Görünümü */
+.movie-result-box {
+    background: #f4f4f0; /* Fiş kağıdı rengi */
+    color: #111;
+    padding: 25px;
+    border-top: 3px dashed #ccc;
+    border-bottom: 3px dashed #ccc;
+    margin-top: 20px;
+    transition: opacity 0.4s ease;
+}
+
+.receipt-header {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #111;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 0.8rem;
+}
+
+#result-title { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 10px; color: #000; }
+#result-desc { font-family: sans-serif; font-size: 0.95rem; line-height: 1.5; color: #333; }
+.receipt-barcode { font-family: monospace; font-size: 1.5rem; text-align: center; margin-top: 20px; letter-spacing: -1px; }
+
+
+/* ==========================================
+   11. ECE'S TAROT DECK (KADER KARTLARI)
+   ========================================== */
+
+   .tarot-section {
+    padding: 100px 20px;
+    background-color: var(--bg-dark);
+    position: relative;
+    z-index: 5;
+    text-align: center;
+}
+
+.tarot-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Mobilde kartların alt alta geçmesini sağlar */
+    gap: 30px;
+    max-width: 1000px;
+    margin: 50px auto 0;
+    perspective: 1200px; /* 3D derinlik algısı (Kritik!) */
+}
+
+.tarot-card {
+    width: 260px;
+    height: 400px;
+    background-color: transparent;
+    cursor: pointer;
+    /* EKLENEN KRİTİK KISIMLAR */
+    position: relative; 
+    z-index: 999 !important; /* Kartları diğer tüm görünmez katmanların üstüne çıkarır */
+    pointer-events: auto !important; /* Tıklamayı zorla algılamasını sağlar */
+}
+
+/* KARTIN KENDİSİ (Dönen Ana Yapı) */
+.tarot-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Tatlı bir sıçrama ile döner */
+    transform-style: preserve-3d; /* 3D özelliğini korur (Kritik!) */
+}
+
+/* KART TIKLANDIĞINDA JS İLE EKLENEN SINIF */
+.tarot-card.flipped .tarot-inner {
+    transform: rotateY(180deg) !important;
+}
+
+/* KARTIN İKİ YÜZÜNÜN ORTAK AYARLARI */
+.tarot-front, .tarot-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Kartın arkasını çevrilmeden gizler */
+    backface-visibility: hidden;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* KARTIN DIŞ YÜZÜ (Karanlık Ece Estetiği) */
+.tarot-front {
+    background: linear-gradient(135deg, #111 0%, #1a1a1c 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Apricity rengi hafif kenarlık */
+    /* Kart dokusu veren ince çizgiler */
+    background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 6px);
+    justify-content: center;
+}
+
+.tarot-icon {
+    font-family: var(--font-serif);
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: var(--bruised-mauve);
+    text-shadow: 0 0 15px rgba(122, 92, 97, 0.5); /* Hafif mor parlama */
+}
+
+.tarot-front h3 {
+    font-family: var(--font-mono);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    color: var(--apricity);
+}
+
+/* KARTIN İÇ YÜZÜ (Açılan Gerçekler - Parşömen) */
+.tarot-back {
+    background: #e8e6df; /* Fildişi/Parşömen kağıdı rengi */
+    color: #111;
+    transform: rotateY(180deg); /* Başlangıçta arkaya dönük bekler */
+    justify-content: flex-start;
+    padding: 30px 20px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+}
+
+.tarot-back h4 {
+    font-family: var(--font-mono);
+    color: var(--bruised-mauve);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.tarot-back p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #222;
+    margin: auto 0; /* Yazıyı dikeyde ortalar */
+}
+
+/* HOVER EFEKTİ (Tıklamadan önce hafifçe yukarı kalkar) */
+.tarot-card:hover:not(.flipped) .tarot-inner {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+}
+
+/* DESTE KAR BUTONU (JS ile açılacak olan buton) */
+#reset-tarot-btn {
+    display: none;
+    margin-top: 50px;
+    font-family: var(--font-mono);
+}
+
+/* MOBİL UYUM */
+@media (max-width: 850px) {
+    .tarot-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .tarot-card {
+        width: 85%;
+        max-width: 320px;
+        height: 350px;
+    }
+}

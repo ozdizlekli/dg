@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ece | Ethereal Individuality</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="cursor-dot"></div>
+<div class="cursor-outline">
+    <span class="cursor-text"></span>
+</div>
+    <div class="film-grain-overlay"></div>
+
+    <div class="film-grain"></div>
+
+    <div class="floating-text-container" id="floating-container"></div>
+
+    <section class="hero-section">
+        <div class="content-wrapper">
+            <h1 class="title" id="main-title" title="death olmak istiyorum">Ece</h1>
+            <p class="subtitle">"Ethereal Individuality" <br> <span style="font-size: 0.8rem; opacity: 0.5;">TO BE LOVED İS TO BE SEEN</span></p>
+            <div class="terminal-box">
+                <span class="prompt">> root/thoughts: </span>
+                <span id="typewriter-text"></span>console.debug(object);<span class="cursor">_</span>
+            </div>
+            <p class="hidden-tattoo-text">Donup kalır sesim kendi göğünde / Onu ne anlayan, ne de duyan bulunur.</p>
+        </div>
+    </section>
+   
+
+    <div style="display: flex; justify-content: center; margin-bottom: 50px; position: relative; z-index: 10;">
+        <iframe style="border-radius:12px; opacity: 0.8; box-shadow: 0 4px 15px rgba(0,0,0,0.5);" 
+            src="https://open.spotify.com/embed/track/3roye2IJK1EWshYzqtbFHs?utm_source=generator" 
+            width="700" height="160" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+        </iframe>
+    </div>
+
+    <section class="timeline-section">
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h2>2020</h2>
+                    <h3>Başlangıç</h3>
+                    <p>Vuku bulduğun yaklaşık sıralar.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h2>2020</h2>
+                    <h3>Persona Yılı</h3>
+                    <p>"Persona'yı aile köpeğimizden daha çok seviyorum ve inanın bu büyük bir şey."</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h2>2021</h2>
+                    <h3>Fleabag & Ara Verilmeyen Film</h3>
+                    <p>Bir yanda "Mads Mikkelsen is my religion", diğer yanda "I love you" nidalarına "It'll pass" diyerek gülümsediğin, yaşamı perdede izler gibi hissettiğin dönem.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h2>2022</h2>
+                    <h3>Doğum Günü Pastası İsyanı</h3>
+                    <p>"Sanırım beni bir doğum günü pastası gibi sevdin. Sadece özel günler için..." "Hard to please Kieślowski enthusiast"in en kırgın olduğu ve Sibylle Baier eşliğinde "it's the end" dediği yıl.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h2>2023</h2>
+                    <h3>Tramvayda Teoman & Barbenheimer</h3>
+                    <p>2 Eylül, saat 13.21. Tramvayda Gonca Vuslateri diyaloglarını cebelleşerek not alışın... Yazın ise Nolan'a ve Barbie'nin demagojisine olan meşhur isyanın.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h2>2024</h2>
+                    <h3>Lithium Came Poetry</h3>
+                    <p>"bruised mauve, not red" - "Gidin dedim gitmediler, bendenlermiş" dediğin saç telleri ve hiç kimse olmak için harika olan o günler.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h2>2025</h2>
+                    <h3>Sektöre Veda Ederken</h3>
+                    <p>Anora'yı (2024) izledikten sonraki o meşhur cümlen: "Sinemanın getirildiği noktadan her hücremle nefret ediyorum."</p>
+                </div>
+            </div>
+
+             <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h2>2026</h2>
+                    <h3>Köklerin Kökü</h3>
+                    <p>Bu bir doğum günü pastası değil..</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="tarot-section">
+        <h2 class="section-title">Kaderin İskambil Kağıtları</h2>
+        <p class="section-subtitle">"Kaderini masaya yatırıp her seferinde kupa kızı beklemek."</p>
+    
+        <div class="tarot-container">
+            <div class="tarot-card" id="card-past">
+                <div class="tarot-inner">
+                    <div class="tarot-front">
+                        <span class="tarot-icon">I</span>
+                        <h3>Geçmiş</h3>
+                    </div>
+                    <div class="tarot-back">
+                        <h4>Geçmiş</h4>
+                        <p id="text-past">...</p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tarot-card" id="card-present">
+                <div class="tarot-inner">
+                    <div class="tarot-front">
+                        <span class="tarot-icon">II</span>
+                        <h3>Şimdi</h3>
+                    </div>
+                    <div class="tarot-back">
+                        <h4>Şimdi</h4>
+                        <p id="text-present">...</p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tarot-card" id="card-future">
+                <div class="tarot-inner">
+                    <div class="tarot-front">
+                        <span class="tarot-icon">III</span>
+                        <h3>Gelecek</h3>
+                    </div>
+                    <div class="tarot-back">
+                        <h4>Gelecek</h4>
+                        <p id="text-future">...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button id="reset-tarot-btn" class="terminal-btn" style="display: none; margin-top: 40px;">> _shuffle_deck()</button>
+    </section>
+
+    <section class="poetry-section">
+        <h2 class="section-title">clairelei’s notebook & The Lost Scrolls</h2>
+        <p class="section-subtitle">Kırılan her kalemin ucu yeni açılmıştır.</p>
+        
+        <div class="poetry-grid">
+            
+            <div class="poem-card">
+                <h3>everlong?</h3>
+                <span class="date">24 Mart 2026</span>
+                <p>i wonder if the tendrils of another hair<br>
+                could ever not feel like an illicit affair <br>
+                scared of the breeze had a secret to declare.<br>
+                shrinking, folding back into my mother’s womb<br>
+                while she flourishes a dulcet tone,<br>
+                hums the name of a child she’s never truly known.<br>
+                a wave of sonder flops me into my reverie<br>
+                as i breathe in the thought of apricity<br>
+                guilt of greed was able to bathe me with spring only.</p>
+            </div>
+
+            <div class="poem-card">
+                <h3>q&a</h3>
+                <span class="date">23 Nisan 2025</span>
+                <p>what would i do if i had infinity? would the freedom of the wings still carry me around with these weights on my shoulders? why does nobody call fallen birds icarus too? ...<br><br>
+                i wouldn't be able to cope with infinity. i worry too much and force my body be restless. i fall asleep wishing to be somebody but in the end i am not even a thing. my roots are growing lighter than i want them to be so i always take the sun away, bleach them all wrong and black. summer is near yet my fall isn't over at all. can you hold me when i lose my veins so i won't tear apart?</p>
+            </div>
+
+            <div class="poem-card">
+                <h3>cat-as-trophe</h3>
+                <span class="date">4 Mart 2026</span>
+                <p>rewiring the shape of my electricity leads to a burnout. closing fists as i'm running away from the fight of my life, where does a deer hide from sunlight? as a shark losing, losing, losing its weight while i wait, wait, wait for the water to beg me to stay, stay. stay? triggering my gun as i pull my hair in the corner with a bunch of bullets coming out of my womb. i make my blood boil as i quiver about the cold, will the warmth of anger ever melt my insides? as if.</p>
+            </div>
+
+            <div class="poem-card">
+                <h3>sleep-less</h3>
+                <span class="date">22 Ağustos 2024</span>
+                <p>heartbeat of a hand engulfs my awakeness,<br>
+                my range of wisdom fits to a pillowcase.<br>
+                a sincere apology comforts the night,<br>
+                touch of a bare hand arches my back in disgust.<br>
+                brown in me that's brought in you,<br>
+                stands as an iridescent pair on you.<br>
+                soul feeds on myrrh to set my hunger free,<br>
+                to kiss you with a bruised knee.</p>
+            </div>
+
+            <div class="poem-card">
+                <h3>my’th</h3>
+                <span class="date">9 Mart 2023</span>
+                <p>the ground shakes as i walk pass the ways given by your maze. two headed snake or beheaded witch i have to choose in between to be a part of your myth. the green grass kept shining golden in the moonlight until you decided trimming was a peaceful option for them to stop... time may fly like a swallow but i miss seeing it as it goes. without you my wrists twist in pain and the glamour of the rose trees die slowly.</p>
+            </div>
+
+            <div class="poem-card">
+                <h3>biting my bits</h3>
+                <span class="date">21 Şubat 2026</span>
+                <p>may have been home to mayhem,<br>
+                growing fangs to shield<br>
+                all of my teeth falling off<br>
+                from a smile.<br>
+                it's hard bidding farewell<br>
+                to my pieces, however<br>
+                in the mirror, i am<br>
+                such a reliable howard<br>
+                for a raging coward.</p>
+            </div>
+
+            <div class="poem-card">
+                <h3>Çapraz Yalnızlıklar</h3>
+                <span class="date">15 Şubat 2023</span>
+                <p>Çapraz yalnızlıklar astım göğsüme<br>
+                Yollarda bir savaşçı gibi yürüdüğüm doğrudur<br>
+                Gözlerle, dillerle kuşatılmış bir ülke<br>
+                Kalbimdir ona tek sınır<br>
+                Susmayı bunun için severim bir çığlık gibi<br>
+                Donup kalır sesim kendi göğünde<br>
+                Onu ne anlayan, ne de duyan bulunur.</p>
+            </div>
+
+            <div class="poem-card">
+                <h3>Geceyarısı</h3>
+                <span class="date">24 Aralık 2022</span>
+                <p>Şimdi gece, soluğumu verdim içime<br>
+                Az önce kağıtlara gül kuruları serptim<br>
+                Dolaplardan kekik, nane kokuları çıkardım<br>
+                Öylece serptim, seni yazacağım diye<br>
+                Sen ki, deniz görmemiş bir deniz kızısın<br>
+                Aklımın almadığı bir yerde, öylesin<br>
+                Şimdi gece, iki kişilik bu yalnızlık<br>
+                Bize artık yeter de artar bile...</p>
+            </div>
+
+        </div>
+    </section>
+    <section class="duality-section">
+        <h2 class="section-title">The Duality of smoothsayerr</h2>
+        <p class="section-subtitle"> Varoluşsal krizlerin kaleme dökülmesine sanat diyorum ancak varolmasaydın görcektin asıl sen o krizi.</p>
+        
+        <div class="duality-container">
+            <div class="duality-card poetic">
+                <div class="card-header">The Poet</div>
+                <p>"kırılan her kalemin ucu yeni açılmıştır..."</p>
+                <p>"ah ne kadar güzel bir gündeyim hiç kimse olmak için."</p>
+                <p>"sanırım beni bir doğum günü pastası gibi sevdin. sadece özel günler için."</p>
+            </div>
+            
+            
+        </div>
+    </section>
+    <section class="iphone-notes-section">
+        <h2 class="section-title">Gece Yarısı İtirafları</h2>
+        <p class="section-subtitle">"All iCloud" klasöründe unutulmuş parçalar.</p>
+        
+        <div class="iphone-container">
+            <div class="notes-sidebar">
+                <div class="notes-header">
+                    <span>< Klasörler</span>
+                    <strong>Notlar</strong>
+                </div>
+                <div class="notes-list">
+                    <div class="note-item active" data-note="note1">
+                        <h4>fiziksel olarak rahatsızlık...</h4>
+                        <span class="note-time">17 July 2024 at 02:12</span>
+                        <p>bir aya varmak üzere günler ve benim...</p>
+                    </div>
+                    <div class="note-item" data-note="note2">
+                        <h4>yıkıcı güçlerin hepsi...</h4>
+                        <span class="note-time">21 August 2024 at 23:41</span>
+                        <p>basılmış bir damardan ötürü ağlatan...</p>
+                    </div>
+                    <div class="note-item" data-note="note3">
+                        <h4>bi ateş yanardı...</h4>
+                        <span class="note-time">3 Temmuz 2024</span>
+                        <p>herkesi yakan içimde. azgınlaşırdım...</p>
+                    </div>
+                    <div class="note-item" data-note="note4">
+                        <h4>I forgot how being in...</h4>
+                        <span class="note-time">12 May 2024 at 03:14</span>
+                        <p>Feeling extremely unloved and...</p>
+                    </div>
+                    <div class="note-item" data-note="note5">
+                        <h4>Who came up with...</h4>
+                        <span class="note-time">28 September 2024 at 04:05</span>
+                        <p>Kim bunları karıştırıp bezde...</p>
+                    </div>
+                    <div class="note-item" data-note="note6">
+                        <h4>Doctor Who Türkiye...</h4>
+                        <span class="note-time">14 April 2024 at 01:23</span>
+                        <p>K-9'un adını Kenan koyabilirler...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note-content-area">
+                <div class="note-content-header">
+                    <span class="note-date" id="current-note-date">17 July 2024 at 02:12</span>
+                </div>
+                <div class="note-text-body" id="current-note-text">
+                    fiziksel olarak rahatsızlık hissediyorum. bir aya varmak üzere günler ve benim gözüme bir damla uyku girmiyor. her gün ağlayarak yatıyor, ağlayarak kalkıyorum. kusuyorum ama içimdeki bu huzursuzluğu da yutuyorum eş zamanında. sanırım bitmesi gerekenler ertelenmemeli artık.
+                    <br><br>
+                    sevdiği için ömrü dolmuş bir anıyı bırakmamazlık yapmamalı insan. küçük olmak ve küçük görmek kendini, farklı ve tezat durumlar. hayat boyu kendimi koymayacağımı bildiğim bir kapta uyanıyorum bir süredir.
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="dictionary-section">
+        <div class="dictionary-wrapper">
+            <h2 class="section-title">Ece's Dictionary</h2>
+            <p class="section-subtitle">Kelimelerin gerçek ağırlıkları üzerine bir çalışma.</p>
+            
+            <div class="dictionary-grid">
+                <div class="dict-item">
+                    <dfn>Birthday Cake</dfn>
+                    <span class="word-type">(isim)</span>
+                    <p>Sadece özel günlerde hatırlanan, süs niyetine ve geçici olarak sevilen kişi. "I think you loved me as a birthday cake."</p>
+                </div>
+                
+                <div class="dict-item">
+                    <dfn>Love</dfn>
+                    <span class="word-type">(isim)</span>
+                    <p>Fazla çabaladığında "istenmeyen bir yol arkadaşlığına" (unsolicited companionship) dönüşen, caramel tadını yitirmiş duygu.</p>
+                </div>
+
+                <div class="dict-item">
+                    <dfn>Infinity</dfn>
+                    <span class="word-type">(isim)</span>
+                    <p>Asla başa çıkılamayacak kadar ağır bir zaman dilimi; insanın içinde kaybolduğu bir uçsuz bucaklık hali.</p>
+                </div>
+
+                <div class="dict-item">
+                    <dfn>Çivileme Atlamak</dfn>
+                    <span class="word-type">(deyim)</span>
+                    <p>Kumdan bir denize çakılma ihtimalini bile bile, sonucun komikliğini göze alarak yapılan o son hamle.</p>
+                </div>
+
+                <div class="dict-item">
+                    <dfn>Kieślowski</dfn>
+                    <span class="word-type">(özel isim)</span>
+                    <p>Sidik, çiş, kaka ve bok renklerini bir huzur ve kaos kaynağına dönüştürebilen yegane sığınak.</p>
+                </div>
+
+                <div class="dict-item">
+                    <dfn>Mauve</dfn>
+                    <span class="word-type">(sıfat)</span>
+                    <p>Kırmızının aksine, acının daha derinleşmiş, morarmış ve sakinleşmiş tonu. "Bruised mauve, not red."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="polaroid-section">
+        <h2 class="section-title">Görsel Hafıza Galerisi</h2>
+        <p class="section-subtitle">Zihnin deklanşöründen sızan dağınık kareler.</p>
+        
+        <div id="polaroid-board" class="polaroid-board"></div>
+    </section>
+    <section class="vault-section">
+        <h2 class="section-title">The Cinematic Vault</h2>
+        <p class="section-subtitle">"Sinemanın getirildiği noktadan nefret ediyorum" </p>
+        
+        <div class="vault-container">
+            <div class="vault-tabs">
+                <button class="vault-tab active" data-filter="all">Tüm Arşiv</button>
+                <button class="vault-tab" data-filter="masterpiece">Taptıkları (★★★★★)</button>
+                <button class="vault-tab" data-filter="regular">Tahammül Ettikleri</button>
+                <button class="vault-tab" data-filter="trash">Nefret Ettikleri (½★)</button>
+            </div>
+            
+            <div class="vault-grid" id="vault-grid">
+                </div>
+        </div>
+    </section>
+    <section class="mixtape-section">
+        <h2 class="section-title">The Bruised Mauve Mixtape</h2>
+        <p class="section-subtitle">Sadece yakalayabildiklerim..</p>
+        
+        <div class="mixtape-container">
+            <div class="player-side">
+                <div class="vinyl-wrapper">
+                    <div class="vinyl-record" id="vinyl-record">
+                        <div class="vinyl-label" id="vinyl-label"></div>
+                        <div class="vinyl-hole"></div>
+                    </div>
+                </div>
+                <div class="spotify-embed">
+                    <iframe id="spotify-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/1Rp3hQoS3UCfOletXg1wX3?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <div class="playlist-side">
+                <div class="tracklist">
+                    <div class="track active" data-track="teoman" data-spotify="https://open.spotify.com/embed/track/1Rp3hQoS3UCfOletXg1wX3?utm_source=generator">
+                        <span class="track-number">01</span>
+                        <div class="track-info">
+                            <h4>Artık Aşık Olamayan</h4>
+                            <span>Teoman</span>
+                        </div>
+                        <div class="playing-gif"><span></span><span></span><span></span></div>
+                    </div>
+                    
+                    <div class="track" data-track="taylor" data-spotify="https://open.spotify.com/embed/track/1XjHRolIXL2M1EEOUsGGR4?utm_source=generator">
+                        <span class="track-number">02</span>
+                        <div class="track-info">
+                            <h4>cowboy like me</h4>
+                            <span>Taylor Swift</span>
+                        </div>
+                        <div class="playing-gif"><span></span><span></span><span></span></div>
+                    </div>
+
+                    <div class="track" data-track="sibylle" data-spotify="https://open.spotify.com/embed/track/1buRClsYPnS4HRRz4jRMmy?utm_source=generator">
+                        <span class="track-number">03</span>
+                        <div class="track-info">
+                            <h4>The End</h4>
+                            <span>Sibylle Baier</span>
+                        </div>
+                        <div class="playing-gif"><span></span><span></span><span></span></div>
+                    </div>
+
+                    <div class="track" data-track="lana" data-spotify="https://open.spotify.com/embed/track/4uhSo9cVBVpdDCNxf4MBaP?utm_source=generator">
+                        <span class="track-number">04</span>
+                        <div class="track-info">
+                            <h4>Gods & Monsters</h4>
+                            <span>Lana Del Rey</span>
+                        </div>
+                        <div class="playing-gif"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+
+                <div class="track-notes" id="track-notes">
+                    <p>"Müziğim bitti çoktan, sözcüklerim de tükeniyor... 2 Eylül 2023. Tramvayda Gonca Vuslateri diyaloglarını cebelleşerek not alışım. Ben yalnız bir adam; artık genç olmayan, artık aşık da olamayan."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="soundwall-section">
+        <div class="soundwall-overlay">
+            <h2 class="section-title">Infinite Soundwall</h2>
+            <p class="section-subtitle">Spotify kütüphanesinden sızan 500+ parça.</p>
+        </div>
+        
+        <div class="marquee-container">
+            <div class="marquee-row fast" id="marquee-1"></div>
+            <div class="marquee-row medium reverse" id="marquee-2"></div>
+            <div class="marquee-row slow" id="marquee-3"></div>
+            <div class="marquee-row fast" id="marquee-4"></div>
+        </div>
+    </section>
+    <section class="dna-section">
+        <h2 class="section-title">Ruhun Mimarları</h2>
+        <p class="section-subtitle">Onu "Ece" yapan sekanslar, notalar ve satırlar.</p>
+        
+        <div class="dna-container">
+            <div class="dna-card">
+                <div class="dna-card-header">
+                    <span class="dna-icon">🎬</span>
+                    <h3>Vizördekiler</h3>
+                </div>
+                <div class="dna-list">
+                    <div class="dna-item">
+                        <h4>Krzysztof Kieślowski</h4>
+                        <p>"Hard to please Kieślowski enthusiast. Renkleri bu kadar iyi kullanabilmesi beni benden alıyor. Daddy Cinema'sı."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Ingmar Bergman</h4>
+                        <p>"Persona'yı aile köpeğimizden daha çok seviyorum ve inanın bu büyük bir şey."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Jean-Luc Godard</h4>
+                        <p>"Fransız Yeni Dalga'nın doğruları... 'Physically and spiritually, she's not for me.'"</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Andrzej Żuławski</h4>
+                        <p>"Possession (1981)... Sahnesi sahnesine benim sinema anlayışıma yönelik çekilmiş comfort filmim."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dna-card">
+                <div class="dna-card-header">
+                    <span class="dna-icon">🎧</span>
+                    <h3>Pikaptakiler</h3>
+                </div>
+                <div class="dna-list">
+                    <div class="dna-item">
+                        <h4>Teoman</h4>
+                        <p>"Ben yalnız bir adam; artık genç olmayan, artık aşık da olamayan. Sözcüklerin tükendiği yerde tramvayda eşlik eden ses."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Alex Turner</h4>
+                        <p>"Sevgi dilim... Merdiven basamağının sırta çarpması gibi heyecanlandıran satırların yazarı."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Lana Del Rey</h4>
+                        <p>"Hayatın sanatı taklit ettiğine inandıran, 'Gods & Monsters' ve 'Cruel World'de kayboluş."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Taylor Swift</h4>
+                        <p>"Forever is the sweetest con... İki dolandırıcının birbirine aşık olduğu o hikaye."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Sibylle Baier</h4>
+                        <p>"Sıradan gülleri değil, soyu tükenmiş olanları sevmek... It's the end, sweet friend."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dna-card">
+                <div class="dna-card-header">
+                    <span class="dna-icon">✒️</span>
+                    <h3>Satırlardakiler</h3>
+                </div>
+                <div class="dna-list">
+                    <div class="dna-item">
+                        <h4>Şule Gürbüz</h4>
+                        <p>"Yaşamda kendimi perdede seyrediyor gibi hissetmem... Müdahale edemiyorum. Bu filme hiç ara verilmiyor."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Franz Kafka</h4>
+                        <p>"Ona 'Ethereal Individuality' sıfatını hediye eden, Milena'ya yazılan sarsıcı mektupların sahibi."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Füruğ Ferruhzad</h4>
+                        <p>"Kimse götürmeyecek beni kırlangıçların şölenine... Uçmayı hayal ederken ölmek üzere olan kuşların şairi."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>Pablo Neruda</h4>
+                        <p>"Tonight I can write the saddest lines. I loved her, and sometimes she loved me too."</p>
+                    </div>
+                    <div class="dna-item">
+                        <h4>E. E. Cummings</h4>
+                        <p>"Here is the root of the root and the bud of the bud... of a tree called life."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="notepad-section">
+        <div class="windows-notepad">
+            <div class="notepad-header">
+                <span class="notepad-title">📝 *4 - Not Defteri</span>
+                <div class="notepad-controls">
+                    <span>_</span><span>□</span><span class="close-btn">X</span>
+                </div>
+            </div>
+            <div class="notepad-menu">Dosya Düzen Biçim Görünüm Yardım</div>
+            <div class="notepad-content">
+                melting inside,<br>
+                emotions become a liquid bush<br>
+                to keep you inside,<br>
+                i let some roses bloom and blush.<br>
+                there's a war inside,<br>
+                consciousness losing to cognizance<br>
+                to feel you inside,<br>
+                deeper i push, slower i lose your glance.<br>
+                <span class="blinking-cursor">|</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="cinematic-section">
+        <h2 class="section-title">Ara Verilmeyen Film</h2>
+        <p class="section-subtitle">"Yaşamda kendimi perdede seyrediyor gibi hissetmem..." - Şule Gürbüz</p>
+        
+        <div class="cinema-screen">
+            <div class="cinema-content">
+                <p id="cinematic-subtitle" class="subtitle-text">"Physically and spiritually, she's not for me."</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="cat-easter-egg" class="cat-popup hidden">
+        <img src="ekran.png" alt="Turuncu Kedi" style="border-radius: 8px; width: 250px;">
+        <p style="font-family: var(--font-mono); font-size: 0.8rem; margin-top: 10px; color: #fff;">meow?</p>
+    </div>
+
+    <section class="hate-wall-section">
+        <h2 class="section-title">The Hate Wall</h2>
+        <p class="section-subtitle">Extreme gory horror and cannibalism enthusiast 🎀</p>
+        
+        <div class="reviews-container">
+            <div class="review-card">
+                <span class="movie-name">Amnesiac (2015)</span>
+                <span class="stars">½</span>
+                <p>"o kadar kötü ki 0 vermek istiyorum ama mümkün değil, yarım yıldız veriyorum."</p>
+            </div>
+            <div class="review-card">
+                <span class="movie-name">The Gray Man (2022)</span>
+                <span class="stars">½</span>
+                <p>"shrek 2 was much better"</p>
+            </div>
+            <div class="review-card">
+                <span class="movie-name">Don't Worry Darling (2022)</span>
+                <span class="stars">★</span>
+                <p>"darlingim için değil de bu filmi beğenenler için endişeleniyorum"</p>
+            </div>
+            <div class="review-card">
+                <span class="movie-name">Dragonball Evolution (2009)</span>
+                <span class="stars">½</span>
+                <p>"insanların abarttığını sanıyordum but the fuck was that"</p>
+            </div>
+            <div class="review-card">
+                <span class="movie-name">The Matrix Resurrections (2021)</span>
+                <span class="stars">½</span>
+                <p>"hayır😍👍🏻"</p>
+            </div>
+            <div class="review-card">
+                <span class="movie-name">Everything Everywhere All at Once (2022)</span>
+                <span class="stars">★★★</span>
+                <p>"abartmamış mısınız biraz puanlamaları ya"</p>
+            </div>
+            <div class="review-card">
+                <span class="movie-name">Enola Holmes 2 (2022)</span>
+                <span class="stars">½</span>
+                <p>"shitshow"</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="love-wall-section">
+        <h2 class="section-title">Cinematic Obsessions</h2>
+        <p class="section-subtitle">"Alex Turner'ın mektubu kadar sarsıcı, Kieślowski kadar derin."</p>
+        
+        <div class="reviews-container">
+            <div class="review-card love-card">
+                <span class="movie-name">Phantom Thread (2017)</span>
+                <span class="stars" style="color: var(--apricity);">★★★★★</span>
+                <p>"if this movie was a person, i would propose to them."</p>
+            </div>
+            <div class="review-card love-card">
+                <span class="movie-name">Possession (1981)</span>
+                <span class="stars" style="color: var(--apricity);">★★★★★</span>
+                <p>"sahnesi sahnesine benim sinema anlayışıma ve zevklerime yönelik çekildiğine 3. kez yemin edebilirim. comfort filmim."</p>
+            </div>
+            <div class="review-card love-card">
+                <span class="movie-name">Head-On / Duvara Karşı (2004)</span>
+                <span class="stars" style="color: var(--apricity);">★★★★★</span>
+                <p>"YA SEN NASIL BIR FILMSIN bitte cahit elini ayağını öpeyim bitte"</p>
+            </div>
+            <div class="review-card love-card">
+                <span class="movie-name">Three Colours: Blue (1993)</span>
+                <span class="stars" style="color: var(--apricity);">★★★★★</span>
+                <p>"o şeker her 5 saniyede eridiğinde ben de kopuyorum dünyadan julie gibi. ve kieslowski, seni çok seviyorum."</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="algorithm-section">
+        <h2 class="section-title">Kieślowski Onaylı Teşhis Algoritması</h2>
+        <p class="section-subtitle">Life imitates art more than art imitates life.</p>
+        
+        <div class="diagnostic-terminal">
+            <div class="terminal-header">
+                <span class="red-dot"></span><span class="yellow-dot"></span><span class="green-dot"></span>
+                <span class="terminal-title">diagnosis_tool.exe</span>
+            </div>
+            <div class="terminal-body">
+                <label for="crisis-selector" class="terminal-label">> current_symptom:</label>
+                <select id="crisis-selector" class="terminal-select">
+                    <option value="empty">Kendimi koymayacağım bir kapta uyanıyorum. (Boşluk)</option>
+                    <option value="rage">Dünyayı, erkekleri ve her şeyi yakmak istiyorum. (Öfke)</option>
+                    <option value="toxic">Sevdiği için ömrü dolmuş anıyı bırakamıyorum. (Toksik Aşk)</option>
+                    <option value="aesthetic">Bana sidik/çiş/kaka renklerinde bir şaheser ver. (Estetik Kriz)</option>
+                    <option value="existential">Ruhum bedenimden çekiliyor. (Ağır Varoluşsal)</option>
+                </select>
+                
+                <button id="movie-btn" class="terminal-btn">> _execute_prescription()</button>
+                
+                <div id="movie-result" class="movie-result-box hidden">
+                    <div class="receipt-header">PRESCRIPTION (RX)</div>
+                    <h3 id="result-title"></h3>
+                    <p id="result-desc"></p>
+                    <div class="receipt-barcode">|||| ||||| |||| || |||||| |</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="heart-section">
+        <h2 class="section-title">The Heart Core</h2>
+        <p class="section-subtitle">"Köklerin kökü, tohumun tohumu; hayat denilen bir ağacın."</p>
+    
+        <div class="heart-container">
+            <div class="trait-card">
+                <div class="trait-icon">⚓</div>
+                <h3>Algoritmik Sadakat</h3>
+                <p class="trait-desc">Sevgi, onun için geçici bir kutlama değildir.</p>
+                <div class="trait-quote">
+                    <span>"Sevgi bir doğum günü pastası değildir; sadece özel günlerde kesilip bitmez. O, her sabah 'evde süt kalmadığında' bile orada duran o sızının, zamana karşı direnen en gerçek halidir."</span>
+                </div>
+            </div>
+    
+            <div class="trait-card">
+                <div class="trait-icon">🗡️</div>
+                <h3>Filtresiz Varoluş</h3>
+                <p class="trait-desc">Küçük kaplara sığmayan, huzursuzluğunu bir sanat eseri gibi masaya bırakan bir dürüstlük.</p>
+                <div class="trait-quote">
+                    <span>"Acıyı saklamak için değil, onu en doğru ismiyle tanımlamak için 'bruised mauve' der. Kendini sığmayacağını bildiği kaplara hapsetmeyi reddeden, vahşi bir dürüstlüğün temsilcisidir."</span>
+                </div>
+            </div>
+    
+            <div class="trait-card">
+                <div class="trait-icon">🕊️</div>
+                <h3>Yaralı Şefkat</h3>
+                <p class="trait-desc">Kırılan her kalemin ucunu yeniden açan, başkasının sızısını kendi göğsünde taşıyan kalp.</p>
+                <div class="trait-quote">
+                    <span>"'Can you hold me when i lose my veins' derken bile aslında bir güven inşa eder. O, yaralı olanı görür; çünkü uçmayı hayal eden her kuşun kanat sesini kendi sessizliğinde duyar."</span>
+                </div>
+            </div>
+    
+            <div class="trait-card">
+                <div class="trait-icon">🥀</div>
+                <h3>Acının Küratörü</h3>
+                <p class="trait-desc">Dünyayı bir sinema perdesi gibi izleyen, her kaosu bir sekansa dönüştüren estetik ruh.</p>
+                <div class="trait-quote">
+                    <span>"En ağır varoluşsal sancıyı bile bir Godard karesine dönüştürebilir. Onun için estetik bir süs değil, her duygunun rengini ve her sessizliğin sekansını bulma çabasıdır."</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="inventory-section">
+        <h2 class="section-title">The Elements of smoothsayerr</h2>
+        <p class="section-subtitle">Gündelik kaosun içinde hayatta kalmamı sağlayan küçük nesneler.</p>
+    
+        <div class="inventory-grid">
+            <div class="inventory-item">
+                <div class="item-icon">🧸</div>
+                <div class="item-info">
+                    <h4>Ayıcıklı Terlik</h4>
+                    <p>"En ağır varoluşsal sancıları çekerken bile vazgeçilmez konfor alanı."</p>
+                </div>
+            </div>
+    
+            <div class="inventory-item">
+                <div class="item-icon">🃏</div>
+                <div class="item-info">
+                    <h4>İskambil Kağıtları</h4>
+                    <p>"Kaderini masaya yatırıp her seferinde kupa kızı beklemek."</p>
+                </div>
+            </div>
+    
+            <div class="inventory-item">
+                <div class="item-icon">☕🚬</div>
+                <div class="item-info">
+                    <h4>Gece Yarısı Ritüeli</h4>
+                    <p>"Gecenin 03.14'ünde, dumanla karışık bir Şule Gürbüz cümlesi."</p>
+                </div>
+            </div>
+    
+            <div class="inventory-item">
+                <div class="item-icon">💊</div>
+                <div class="item-info">
+                    <h4>Kimyasal Denge</h4>
+                    <p>"Zihnin fırtınalarını dindirmek için bir avuç dolusu rasyonel müdahale."</p>
+                </div>
+            </div>
+    
+            <div class="inventory-item">
+                <div class="item-icon">🍊</div>
+                <div class="item-info">
+                    <h4>Kan Portakalı</h4>
+                    <p>"Dışarıdan tatlı ama içi her zaman kan rengi; tıpkı bu Haziran gibi."</p>
+                </div>
+            </div>
+    
+            <div class="inventory-item">
+                <div class="item-icon">📓</div>
+                <div class="item-info">
+                    <h4>Süzgeç</h4>
+                    <p>"Kırılan her kalemin ucunu yeniden açıp dünyaya sapladığım yer."</p>
+                </div>
+            </div>
+            <div class="inventory-item">
+                <div class="item-icon">🏡</div>
+                <div class="item-info">
+                    <h4>Manisa evi</h4>
+                    <p>" Tüm başlangıçların ve bitişlerin sessiz tanığı."</p>
+                </div>
+            </div>
+            
+            <div class="inventory-item">
+                <div class="item-icon">🏺</div>
+                <div class="item-info">
+                    <h4>Anı Müzesi</h4>
+                    <p>"Salondaki cam kapaklı dolap; içinde sadece eşyaları değil, dondurulmuş anları saklayan şeffaf ayna."</p>
+                </div>
+            </div>
+            
+            <div class="inventory-item">
+                <div class="item-icon">👁️‍🗨️</div>
+                <div class="item-info">
+                    <h4>Beyaz Far</h4>
+                    <p>"Çok yakışıyo hep sür."</p>
+                </div>
+            </div>
+            
+            <div class="inventory-item">
+                <div class="item-icon">🖼️</div>
+                <div class="item-info">
+                    <h4>Duvarlardaki Ruh</h4>
+                    <p>"Evin her köşesinde asılı duran, konuşmayan ama her şeyi anlatan , evine ruh katan , seni anlatan dikdörtgen evrak."</p>
+                </div>
+            </div>
+            
+            
+            <div class="inventory-item">
+                <div class="item-icon">💍</div>
+                <div class="item-info">
+                    <h4>Zırhlar</h4>
+                    <p>"Parmaklarına dizdiği her bir gümüş halka; dış dünyaya karşı taktığı şık ve sert zırhlar."</p>
+                </div>
+            </div>
+            
+            <div class="inventory-item">
+                <div class="item-icon">🖤</div>
+                <div class="item-info">
+                    <h4>Siyah Oje</h4>
+                    <p>"Parmak uçlarına kadar bulaşan asil karanlık diyorum ben; her dokunuşunda bıraktığı melankolik ize."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="memory-reel-section">
+        <h2 class="section-title">The Scratched Memory Reel</h2>
+        <p class="section-subtitle">Yırtık bir film şeridi ve benim bebeğim</p>
+    
+        <div class="reel-container" id="reel-container">
+            <div class="film-strip-overlay"></div>
+            
+            <div class="photo-viewer" id="photo-viewer">
+                </div>
+    
+            <div class="torn-edge top"></div>
+            <div class="torn-edge bottom"></div>
+        </div>
+    </section>
+    <section class="archive-section">
+        <div class="vhs-overlay"></div> <div class="archive-container">
+            <div class="archive-header">
+                <span class="rec-dot"></span> REC <span class="archive-time" id="vhs-time">00:00:00</span>
+            </div>
+            
+            <div class="glitch-wrapper">
+                <h2 class="glitch-text" data-text="THE LOST ARCHIVES">THE LOST ARCHIVES</h2>
+            </div>
+            
+            <div class="story-viewer">
+                <p id="story-text" class="story-content">"Beni bunu anlayacak kadar sevdin mi?"</p>
+            </div>
+    
+            <div class="vhs-controls">
+                <span>PLAY ▶</span>
+                <span>SLP</span>
+                <span>SP</span>
+            </div>
+        </div>
+    </section>
+    <section class="site-review-section">
+        <div class="review-container">
+            <div class="letterboxd-card">
+                <div class="lb-header">
+                    <div class="lb-avatar">
+                        <img src="image/Ekran Resmi 2026-04-01 23.37.57.png" alt="Ece">
+                    </div>
+                    <div class="lb-info">
+                        <span class="lb-user">Review by <strong>Ece</strong></span>
+                        <span class="lb-movie">The 7-Year Algorithm <span class="lb-year">2026</span></span>
+                        <div class="lb-rating">
+                            ★★★★<span class="half-star"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lb-body">
+                    <p>Mühendislik fena değil ama hayatımın kurgusunda ciddi <em>plot hole</em>'lar var. Arayüzde Lanthimos'un o rahatsız edici çiğliğini ve Kieślowski'nin "bok" renklerini aradım ama yer yer Nolan gibi lüzumsuz kafa karıştırıcı ve formülize olmuş.</p>
+                    <p>Yine de "7 yıllık dostluk" draması üzerinden yapılan duygusal manipülasyon tıkır tıkır çalışıyor. Kodlamadaki emeği takdir ettim, en azından <em>Oppenheimer</em>'dan daha fazla ruhu var.</p>
+                    <p>Yine de 4 yıldız. (5 yıldızı sadece <em>The Conformist</em>'e veya <em>The Fire Within</em>'e veririm, şansını zorlama Sıla.)</p>
+                </div>
+                
+                <div class="lb-footer">
+                    <span class="lb-likes"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> 2,555 likes</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="flight-path-section">
+        <h2 class="section-title"></h2>
+        <p class="section-subtitle"></p>
+    
+        <div class="flight-container">
+            <div class="location-point izmir-point">
+                <div class="point-circle"></div>
+                <div class="point-label">
+                    <h4>İzmir</h4>
+                    
+                </div>
+            </div>
+    
+            <div class="path-svg-container">
+                <svg viewBox="0 0 800 200" class="path-line-svg">
+                    <path id="flight-curve" d="M 50,100 Q 400,0 750,100" fill="transparent" stroke="rgba(212, 175, 55, 0.15)" stroke-width="1.5" stroke-dasharray="8,8" />
+                    
+                    <g class="bird-messenger">
+                        <text font-size="28" y="10" x="-10">🕊️</text>
+                        
+                        <animateMotion 
+                            dur="8s" 
+                            repeatCount="indefinite" 
+                            rotate="auto"
+                            calcMode="spline" 
+                            keyTimes="0; 1" 
+                            keySplines="0.42 0 0.58 1">
+                            <mpath href="#flight-curve"/>
+                        </animateMotion>
+                        
+                        <animate attributeName="opacity" values="0;1;1;0" dur="8s" repeatCount="indefinite" />
+                    </g>
+                </svg>
+            </div>
+    
+            <div class="location-point manisa-point">
+                <div class="point-circle"></div>
+                <div class="point-label">
+                    <h4>Manisa</h4>
+                    
+                </div>
+            </div>
+        </div>
+        
+    
+        <div class="path-description">
+            <p>Seni benim gözümden gör istedim ama sığdıramadım , seni seviyorum..</p>
+        </div>
+    </section>
+    
+    <div style="text-align: center; padding-bottom: 30px; opacity: 0.3; font-style: italic; font-family: var(--font-serif); color: var(--text-main);">
+        "kuş ölür, sen uçuşu hatırla"
+    </div>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
